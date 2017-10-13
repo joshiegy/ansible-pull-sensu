@@ -133,4 +133,4 @@
         hostname: localhost
         database_name: sensu
     - name: "Create influx user"
-      command: 'influx -database "sensu" -execute "CREATE USER sensu WITH PASSWORD sensu WITH ALL PRIVILEGES"'
+      command: 'influx -database "sensu" -execute "CREATE USER \"sensu\" WITH PASSWORD \"sensu\" WITH ALL PRIVILEGES"'
