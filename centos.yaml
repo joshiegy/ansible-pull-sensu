@@ -84,6 +84,14 @@
             dest: /etc/sensu/conf.d/}
         - { src: influxdb.json,
             dest: /etc/sensu/conf.d/}
+        - { src: redis.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: api.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: rabbitmq.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: transport.json,
+            dest: /etc/sensu/conf.d/}
         - { src: uchiwa.json,
             dest: /etc/sensu/}
     - name: Install gems
