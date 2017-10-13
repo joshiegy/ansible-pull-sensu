@@ -64,6 +64,11 @@
         - nagios-plugins-all
         - influxdb
         - grafana
+        - python-pip
+    - name: Pip installation
+      pip:
+        name: influxdb
+        state: present
     - name: Transfer templates
       template:
         src: "{{ t.src }}"
@@ -128,4 +133,4 @@
         hostname: localhost
         database_name: sensu
     - name: "Create influx user"
-      command: 'influx -database sensu -execute "CREATE USER sensu WITH PASSWORD sensu WITH ALL PRIVILEGES"'
+      command: 'influx -database "sensu" -execute "CREATE USER sensu WITH PASSWORD sensu WITH ALL PRIVILEGES"'
