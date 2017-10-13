@@ -10,8 +10,8 @@
         description: "{{ repo.desc }}"
         baseurl: "{{ repo.base }}"
         async: yes
-        gpgcheck: "{{ repo.gpgcheck|default(omit) }}"
-        gpgkey: "{{ repo.gpgkey|default('no') }}"
+        gpgcheck: "{{ repo.gpgcheck|default('no') }}"
+        gpgkey: "{{ repo.gpgkey|default(omit) }}"
         sslcacert: "{{ repo.sslcacert|default(omit) }}"
         sslverify: "{{ repo.sslverify|default(omit) }}"
       loop_control:
