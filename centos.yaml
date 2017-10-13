@@ -58,7 +58,6 @@
         - sensu
         - uchiwa
         - nagios-plugins-all
-        - python-influxdb
         - influxdb
         - grafana
     - name: Transfer templates
@@ -91,7 +90,7 @@
         - merge
         - em-http-request
       ignore_errors: true
-    - name: Start everything
+    - name: Start everythingyum se
       systemd:
         name: "{{ service }}"
         state: restarted
