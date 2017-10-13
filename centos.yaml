@@ -91,7 +91,7 @@
         - merge
         - em-http-request
       ignore_errors: true
-    - name: Start everything:
+    - name: Start everything
       systemd:
         name: "{{ service }}"
         state: restarted
