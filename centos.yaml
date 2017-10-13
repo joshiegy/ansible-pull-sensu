@@ -12,6 +12,8 @@
         async: yes
         gpgcheck: "{{ repo.gpgcheck|default(omit) }}"
         gpgkey: "{{ repo.gpgkey|default(omit) }}"
+        sslcacert: "{{ repo.sslcacert|default(omit) }}"
+        sslverify: "{{ repo.sslverify|default(omit) }}"
       loop_control:
         loop_var: repo
       with_items:
@@ -32,8 +34,10 @@
         - { name: Grafana,
             desc: Grafana graphing,
             base: "https://packagecloud.io/grafana/stable/el/6/$basearch",
-            gpgkey: "https://packagecloud.io/gpg.key",
-            gpgcheck: yes
+            gpgkey: "https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana",
+            gpgcheck: yes,
+            sslverify: yes,
+            sslcacert: /etc/pki/tls/certs/ca-bundle.crt
             }
     - name: Update system
       yum:
