@@ -17,20 +17,24 @@
       with_items:
         - { name: epel,
             desc: Epel Yum Repo,
-            base: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/}
+            base: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
+            }
         - { name: Sensu,
             desc: Sensu Open Source,
-            base: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/}
+            base: "https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/"
+            }
         - { name: Influx,
             desc: InfluxDB,
-            base: https://repos.influxdata.com/rhel/$releasever/$basearch/stable,
+            base: "https://repos.influxdata.com/rhel/$releasever/$basearch/stable",
             gpgkey: https://repos.influxdata.com/influxdb.key,
-            gpgcheck: yes}
+            gpgcheck: yes
+            }
         - { name: Grafana,
             desc: Grafana graphing,
-            base: https://packagecloud.io/grafana/stable/el/6/$basearch,
+            base: "https://packagecloud.io/grafana/stable/el/6/$basearch",
             gpgkey: https://packagecloud.io/gpg.key,
-            gpgcheck: yes}
+            gpgcheck: yes
+            }
     - name: Update system
       yum:
         name: '*'
