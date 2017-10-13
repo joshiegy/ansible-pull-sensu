@@ -19,7 +19,8 @@
       with_items:
         - { name: epel,
             desc: Epel Yum Repo,
-            base: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
+            base: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/",
+            gpgcheck: no
             }
         - { name: Sensu,
             desc: Sensu Open Source,
