@@ -11,7 +11,7 @@
         baseurl: "{{ repo.base }}"
         async: yes
         gpgcheck: "{{ repo.gpgcheck|default(omit) }}"
-        gpgkey: "{{ repo.gpgkey|default(omit) }}"
+        gpgkey: "{{ repo.gpgkey|default('no') }}"
         sslcacert: "{{ repo.sslcacert|default(omit) }}"
         sslverify: "{{ repo.sslverify|default(omit) }}"
       loop_control:
@@ -19,8 +19,7 @@
       with_items:
         - { name: epel,
             desc: Epel Yum Repo,
-            base: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/",
-            gpgcheck: no
+            base: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
             }
         - { name: Sensu,
             desc: Sensu Open Source,
