@@ -1,0 +1,124 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Include the varsfile
+      include_vars: main.yaml
+    - name: Add repos
+      yum_repository:
+        name: "{{ repo.name }}"
+        description: "{{ repo.desc }}"
+        baseurl: "{{ repo.base }}"
+        async: yes
+        gpgcheck: "{{ repo.gpgcheck|default(omit) }}"
+        gpgkey: "{{ repo.gpgkey|default(omit) }}"
+      loop_control:
+        loop_var: repo
+      with_items:
+        - { name: epel,
+            desc: Epel Yum Repo,
+            base: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/}
+        - { name: Sensu,
+            desc: Sensu Open Source,
+            base: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/}
+        - { name: Influx,
+            desc: InfluxDB,
+            base: https://repos.influxdata.com/rhel/$releasever/$basearch/stable,
+            gpgkey: https://repos.influxdata.com/influxdb.key,
+            gpgcheck: yes}
+        - { name: Grafana,
+            desc: Grafana graphing,
+            base: https://packagecloud.io/grafana/stable/el/6/$basearch,
+            gpgkey: https://packagecloud.io/gpg.key,
+            gpgcheck: yes}
+    - name: Update system
+      yum:
+        name: '*'
+        state: latest
+        exclude: kernel*
+    - name: Yum installation
+      yum:
+        name: "{{ packages }}"
+        state: installed
+      loop_control:
+        loop_var: packages
+      with_items:
+        - ruby
+        - ruby-devel
+        - gcc
+        - redis
+        - erlang
+        - rabbitmq-server
+        - socat
+        - "https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm"
+        - sensu
+        - uchiwa
+        - nagios-plugins-all
+        - python-influxdb
+        - influxdb
+        - grafana
+    - name: Transfer templates
+      template:
+        src: "{{ t.src }}"
+        dest: "{{ t.dest }}"
+      loop_control:
+        loop_var: t
+      with_items:
+        - { src: rabbitmq-server.j2,
+            dest: /etc/default/rabbitmq-server}
+        - { src: base_checks.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: handlers.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: influxdb.json,
+            dest: /etc/sensu/conf.d/}
+        - { src: uchiwa.json,
+            dest: /etc/sensu/}
+    - name: Install gems
+      gem:
+        name: "{{ gems }}"
+        state: present
+        executable: /opt/sensu/embedded/bin/gem
+      loop_control:
+        loop_var: gems
+      with_items:
+        - sensu-plugin
+        - sensu-plugins-uptime
+        - merge
+        - em-http-request
+      ignore_errors: true
+    - name: Start everything:
+      systemd:
+        name: "{{ service }}"
+        state: restarted
+        enabled: yes
+      loop_control:
+        loop_var: service
+      with_items:
+        - redis
+        - rabbitmq-server
+        - sensu-api
+        - sensu-server
+        - sensu-client
+        - influxdb
+        - grafana-server
+    - name: Configure rabbit - vhost
+      rabbitmq_vhost:
+        name: /sensu
+        state: present
+    - name: Configure rabbit - user
+      rabbitmq_user:
+        user: sensu
+        password: sensu
+        permissions:
+          - vhost: /sensu
+            configure_priv: .*
+            read_priv: .*
+            write_priv: .*
+        state: present
+    - name: "Make sure databases exsists"
+      influxdb_database:
+        hostname: localhost
+        database_name: sensu
+    - name: "Create influx user"
+      command: 'influx -database sensu -execute "CREATE USER sensu WITH PASSWORD sensu WITH ALL PRIVILEGES"'

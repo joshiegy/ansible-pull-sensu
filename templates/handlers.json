@@ -1,0 +1,14 @@
+{
+  "handlers": {
+    "default": {
+      "type": "set",
+      "handlers": [
+        "metrics"
+      ]
+    },
+    "metrics": {
+      "type": "pipe",
+      "command": "/opt/sensu/embedded/bin/metrics-influxdb.rb"
+    }
+  }
+}

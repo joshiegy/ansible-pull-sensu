@@ -1,0 +1,20 @@
+{
+  "influxdb": {
+    "host"          : "{{ ansible_default_ipv4.address }}",
+    "port"          : "8086",
+    "database"      : "sensu",
+    "username"      : "sensu",
+    "password"      : "sensu",
+    "use_ssl"       : false,
+    "verify_ssl"    : false,
+    "auth_method"   : "params",
+    "initial_delay" : 0.01,
+    "max_delay"     : 30,
+    "open_timeout"  : 5,
+    "read_timeout"  : 300,
+    "retry"         : null,
+    "prefix"        : "",
+    "denormalize"   : true,
+    "status"        : true
+  }
+}

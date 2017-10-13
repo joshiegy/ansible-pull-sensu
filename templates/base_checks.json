@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "RunningProcesses": {
+      "command": "/opt/sensu/embedded/bin/check-process.rb",
+      "Notes": "Noteline",
+      "subscribers": [
+        "base"
+      ],
+      "interval": 60,
+      "occurrences": 3
+    },
+    "CPU": {
+      "command": "/opt/sensu/embedded/bin/check-cpu.rb -w :::WARNING|50::: -c :::CRITICAL|80:::",
+      "Notes": "Noteline",
+      "subscribers": [
+        "base"
+      ],
+      "interval": 60,
+      "occurrences": 3
+    },
+    "Disk": {
+      "command": "/opt/sensu/embedded/bin/check-disk-usage.rb -c :::DISK_CRIT|90::: -w :::DISK_WARN|85::: -W :::INODE_WARN|80:::",
+      "Notes": "Noteline",
+      "subscribers": [
+        "base"
+      ],
+      "interval": 60,
+      "occurrences": 3
+    },
+    "S.M.A.R.T": {
+      "command": "/opt/sensu/embedded/bin/check-smart.rb",
+      "Notes": "Checks smart-status on hardware",
+      "Solutionlink": "None at the moment",
+      "subscribers": [
+        "physical"
+      ],
+      "interval": 600,
+      "occurrences": 1
+    }
+  }
+}
