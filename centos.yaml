@@ -26,13 +26,13 @@
         - { name: Influx,
             desc: InfluxDB,
             base: "https://repos.influxdata.com/rhel/$releasever/$basearch/stable",
-            gpgkey: https://repos.influxdata.com/influxdb.key,
+            gpgkey: "https://repos.influxdata.com/influxdb.key",
             gpgcheck: yes
             }
         - { name: Grafana,
             desc: Grafana graphing,
             base: "https://packagecloud.io/grafana/stable/el/6/$basearch",
-            gpgkey: https://packagecloud.io/gpg.key,
+            gpgkey: "https://packagecloud.io/gpg.key",
             gpgcheck: yes
             }
     - name: Update system
